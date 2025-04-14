@@ -1,0 +1,3072 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)https://www.cnblogs.com/RioTian/p/14761864.html -->
+<html lang="zh-cn" style="--olcb-folder-code-block-max-height: 80vh; --cnb-code-bg: rgb(245, 245, 245); --cnb-code-font-size: 12px; --cnb-code-color: rgb(68, 68, 68);"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="never">
+    <meta name="keywords" content="随笔">
+    <meta name="description" content="本文较为详细地介绍了在Windows系统下，如何配置Sublime Text的C编译运行环境。目前实现了了可以在Sublime Text按下快捷键后，调出CMD或者终端来运行C/C程序，从而解决了Sublime Text无法接收输入的问题。 另外本文也介绍了一些Sublime Text的使用和用户配">
+    <meta property="og:description" content="本文较为详细地介绍了在Windows系统下，如何配置Sublime Text的C编译运行环境。目前实现了了可以在Sublime Text按下快捷键后，调出CMD或者终端来运行C/C程序，从而解决了Sublime Text无法接收输入的问题。 另外本文也介绍了一些Sublime Text的使用和用户配">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>将Sublime Text打造为轻量级的C++ IDE - RioTian</title>
+    <link rel="icon" id="favicon" href="https://cdn.jsdelivr.net/gh/RivTian/Blogimg/img/20220218112744.svg" type="image/x-icon">
+    <link rel="canonical" href="https://www.cnblogs.com/RioTian/p/14761864.html">
+    
+    <style>#home :not(.cnblogs_code):not(.cnblogs_Highlighter)>pre:not([highlighted]):not([class*="brush:"]) code:not(.hljs), :not(.cnblogs_code):not(.cnblogs_Highlighter)>pre:not([highlighted]):not([class*="brush:"]) code:not(.hljs) {background: rgb(245, 245, 245);
+        padding: 12px;
+        border: 1px solid rgb(204, 204, 204);
+        border-radius: 3px;
+        border-color: transparent;
+        color: rgb(68, 68, 68);
+        font-family: "JetBrains Mono-Regular", "Courier New", sans-serif, Consolas, Monaco;
+        font-size: 12px</style><link rel="stylesheet" href="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/blog-common.min.css">
+    
+
+    
+        <link id="highlighter-theme-cnblogs" type="text/css" rel="stylesheet" href="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/cnblogs.css">
+    <link type="text/css" rel="stylesheet" href="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/custom.css">
+    <link type="text/css" rel="stylesheet" href="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/JetBrainsMono-Regular.min.css">
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/bundle-simplememory-mobile-pure.min.css">
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/RioTian/rss">
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/RioTian/rsd.xml">
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/RioTian/wlwmanifest.xml">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "@id": "https://www.cnblogs.com/RioTian/p/14761864.html",
+      "headline": "将Sublime Text打造为轻量级的C&#x2B;&#x2B; IDE",
+      "description": "本文较为详细地介绍了在Windows系统下，如何配置Sublime Text的C编译运行环境。目前实现了了可以在Sublime Text按下快捷键后，调出CMD或者终端来运行C/C程序，从而解决了Sublime Text无法接收输入的问题。 另外本文也介绍了一些Sublime Text的使用和用户配",
+      "image": [
+        
+      ],
+      "author": {
+        "@type": "Person",
+        "@id": "https://www.cnblogs.com/RioTian/",
+        "name": "RioTian",
+        "url": "https://www.cnblogs.com/RioTian/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://www.cnblogs.com/",
+        "name": "博客园",
+        "url": "https://www.cnblogs.com/"
+      },
+      "datePublished": "2021-05-12T21:47:00.0000000&#x2B;08:00",
+      "dateModified": "2021-05-13T18:33:00.0000000&#x2B;08:00",
+      "wordCount": "12217",
+      "isPartOf": {
+        "@type": "Blog",
+        "@id": "https://www.cnblogs.com/RioTian/",
+        "name": "RioTian の Blogs",
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://www.cnblogs.com/",
+          "name": "博客园"
+        }
+      }
+    }
+    </script>
+
+    <script>
+        var currentBlogId = 568589;
+        var currentBlogApp = 'RioTian';
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'SimpleMemory';
+        var visitorUserId = '';
+        var hasCustomScript = true;
+        window.cb_enable_mathjax = true;
+        window.mathEngine = 1;
+        window.codeHighlightEngine = 1;
+        window.enableCodeLineNumber = false;
+        window.codeHighlightTheme = 'cnblogs';
+        window.darkModeCodeHighlightTheme = 'vs2015';
+        window.isDarkCodeHighlightTheme = false;
+        window.isDarkModeCodeHighlightThemeDark = true;
+        window.isDisableCodeHighlighter = false;
+        window.enableCodeThemeTypeFollowSystem = false;
+        window.enableMacStyleCodeBlock = true;
+    </script>
+        <script>
+            window.currentPostId = 14761864;
+            window.currentPostDateAdded = '2021-05-12 21:47';
+        </script>
+    <script src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/jquery-3.3.1.min.js.下载"></script>
+    <script src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/blog-common.min.js.下载"></script><style>.medium-zoom-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 300ms;
+  will-change: opacity;
+}
+
+.medium-zoom--opened .medium-zoom-overlay {
+  cursor: pointer;
+  cursor: zoom-out;
+  opacity: 1;
+}
+
+.medium-zoom-image {
+  cursor: pointer;
+  cursor: zoom-in;
+  /*
+    The `transition` is marked as "!important" for the animation to happen
+    even though it's overriden by another inline `transition` style attribute.
+
+    This is problematic with frameworks that generate inline styles on their
+    images (e.g. Gatsby).
+
+    See https://github.com/francoischalifour/medium-zoom/issues/110
+   */
+  transition: transform 300ms cubic-bezier(0.2, 0, 0.2, 1) !important;
+}
+
+.medium-zoom-image--hidden {
+  visibility: hidden;
+}
+
+.medium-zoom-image--opened {
+  position: relative;
+  cursor: pointer;
+  cursor: zoom-out;
+  will-change: transform;
+}
+</style><script id="hljs-script" src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/highlight.min.js.下载" type="text/javascript" async=""></script>
+        <script>updateCustomBlogReferrer();</script>
+    
+<script id="mathjax" src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/tex-mml-chtml.js.下载" type="text/javascript" defer=""></script><script async="" src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/chatra.js.下载"></script><meta property="og:image" content="https://raw.githubusercontent.com/RivTian/Blogimg/main/img/20210513171129.png"><style>@-webkit-keyframes chatra-chat-appear-from-bottom {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(20px) scale(.97);
+    transform: translateY(20px) scale(.97);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0) scale(1);
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes chatra-chat-appear-from-bottom {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(20px) scale(.97);
+    transform: translateY(20px) scale(.97);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0) scale(1);
+    transform: translateY(0) scale(1);
+  }
+}
+@-webkit-keyframes chatra-chat-appear-from-top {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(-20px) scale(.97);
+    transform: translateY(-20px) scale(.97);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0) scale(1);
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes chatra-chat-appear-from-top {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(-20px) scale(.97);
+    transform: translateY(-20px) scale(.97);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0) scale(1);
+    transform: translateY(0) scale(1);
+  }
+}
+@-webkit-keyframes chatra-chat-appear {
+  from {
+    opacity: 0;
+    -webkit-transform: scale(.95);
+    transform: scale(.95);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@keyframes chatra-chat-appear {
+  from {
+    opacity: 0;
+    -webkit-transform: scale(.95);
+    transform: scale(.95);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@-webkit-keyframes chatra-round-button-appear {
+  from {
+    opacity: 0;
+    -webkit-transform: scale(.5);
+    transform: scale(.5);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@keyframes chatra-round-button-appear {
+  from {
+    opacity: 0;
+    -webkit-transform: scale(.5);
+    transform: scale(.5);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@-webkit-keyframes chatra-tab-button-appear {
+  from {
+    opacity: 0;
+    -webkit-transform: scale(.9);
+    transform: scale(.9);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@keyframes chatra-tab-button-appear {
+  from {
+    opacity: 0;
+    -webkit-transform: scale(.9);
+    transform: scale(.9);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@-webkit-keyframes chatra-transparent-appear {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+@keyframes chatra-transparent-appear {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+html.chatra-mobile-widget-expanded,
+body.chatra-mobile-widget-expanded {
+  overflow: hidden !important;
+  height: 100% !important;
+  width: 100% !important;
+  position: fixed !important;
+  margin: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+}
+#chatra {
+  visibility: hidden;
+  opacity: 0;
+  position: fixed;
+  max-height: calc(100% - 40px);
+  max-width: calc(100% - 40px);
+  -webkit-transition: .2s linear;
+  transition: .2s linear;
+  -webkit-transition-property: visibility,opacity;
+  transition-property: visibility,opacity;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  width: auto;
+  height: auto;
+  min-height: 0;
+  min-width: 0;
+  display: block;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  padding: 0;
+  margin: 0;
+}
+@media print {
+  #chatra {
+    display: none;
+  }
+}
+#chatra__iframe-wrapper,
+#chatra__iframe {
+  left: 0 !important;
+  top: 0 !important;
+  height: 100% !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  background: transparent !important;
+  opacity: 1;
+  -webkit-transform: none;
+  transform: none;
+}
+#chatra__iframe-wrapper {
+  position: absolute;
+  -webkit-box-shadow: 0 0 3px rgba(0,0,0,0.1),0 0 10px rgba(0,0,0,0.3);
+  box-shadow: 0 0 3px rgba(0,0,0,0.1),0 0 10px rgba(0,0,0,0.3);
+  overflow: hidden !important;
+}
+#chatra #chatra__iframe-wrapper,
+#chatra.chatra--safari #chatra__iframe,
+#chatra.chatra--webkit.chatra--expanded #chatra__iframe {
+  border-radius: 12px;
+}
+#chatra.chatra--mobile-widget:not(.chatra--expanded),
+#chatra.chatra--mobile-widget:not(.chatra--expanded) * {
+  cursor: pointer;
+}
+#chatra.chatra--safari #chatra__iframe {
+  -webkit-mask-image: -webkit-gradient(linear,left top, left bottom,from(#000),to(#000));
+  -webkit-mask-image: linear-gradient(#000,#000);
+  mask-image: -webkit-gradient(linear,left top, left bottom,from(#000),to(#000));
+  mask-image: linear-gradient(#000,#000);
+  -webkit-mask-position: 50% 50%;
+  mask-position: 50% 50%;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+#chatra:not(.chatra--expanded) #chatra__iframe-wrapper {
+  -webkit-transition: .2s linear;
+  transition: .2s linear;
+  -webkit-transition-property: -webkit-box-shadow;
+  transition-property: -webkit-box-shadow;
+  transition-property: box-shadow;
+  transition-property: box-shadow, -webkit-box-shadow;
+}
+#chatra:not(.chatra--expanded):hover #chatra__iframe-wrapper {
+  -webkit-box-shadow: 0 0 3px rgba(0,0,0,0.1),0 0 15px rgba(0,0,0,0.4);
+  box-shadow: 0 0 3px rgba(0,0,0,0.1),0 0 15px rgba(0,0,0,0.4);
+}
+#chatra.chatra--visible {
+  visibility: visible;
+  opacity: 1;
+}
+#chatra.chatra--animating {
+  -webkit-transition: 350ms cubic-bezier(.25,.1,0,1);
+  transition: 350ms cubic-bezier(.25,.1,0,1);
+  -webkit-transition-property: height,width,max-width,max-height,top,bottom,left,right,-webkit-transform;
+  transition-property: height,width,max-width,max-height,top,bottom,left,right,-webkit-transform;
+  transition-property: height,width,max-width,max-height,top,bottom,left,right,transform;
+  transition-property: height,width,max-width,max-height,top,bottom,left,right,transform,-webkit-transform;
+}
+#chatra.chatra--style-round:not(.chatra--expanded) #chatra__iframe-wrapper,
+#chatra.chatra--style-round.chatra--safari:not(.chatra--expanded) #chatra__iframe {
+  border-radius: 50%;
+}
+#chatra.chatra--custom-button:not(.chatra--expanded) {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none;
+  -webkit-transition: none;
+  transition: none;
+}
+#chatra.chatra--fast-toggle.chatra--style-round:not(.chatra--expanded) #chatra__iframe-wrapper {
+  -webkit-animation: chatra-round-button-appear 150ms ease-out 50ms both;
+  animation: chatra-round-button-appear 150ms ease-out 50ms both;
+}
+#chatra.chatra--fast-toggle.chatra--style-tab:not(.chatra--expanded) #chatra__iframe-wrapper {
+  -webkit-animation: chatra-tab-button-appear 150ms ease-out 50ms both;
+  animation: chatra-tab-button-appear 150ms ease-out 50ms both;
+}
+#chatra.chatra--fast-toggle.chatra--expanded #chatra__iframe-wrapper {
+  -webkit-animation: chatra-chat-appear 150ms ease-out 50ms both;
+  animation: chatra-chat-appear 150ms ease-out 50ms both;
+}
+#chatra.chatra--fast-toggle.chatra--transparent #chatra__iframe-wrapper {
+  -webkit-animation-name: chatra-transparent-appear;
+  animation-name: chatra-transparent-appear;
+}
+#chatra.chatra--fast-toggle.chatra--expanded:not(.chatra--mobile-widget):not(.chatra--transparent) #chatra__iframe-wrapper {
+  -webkit-animation-name: chatra-chat-appear-from-bottom;
+  animation-name: chatra-chat-appear-from-bottom;
+}
+#chatra.chatra--fast-toggle.chatra--pos-top.chatra--expanded:not(.chatra--mobile-widget):not(.chatra--transparent) #chatra__iframe-wrapper {
+  -webkit-animation-name: chatra-chat-appear-from-top;
+  animation-name: chatra-chat-appear-from-top;
+}
+#chatra.chatra--expanded #chatra__iframe-wrapper {
+  -webkit-box-shadow: 0 0 3px rgba(0,0,0,0.1),0 5px 50px rgba(0,0,0,0.2);
+  box-shadow: 0 0 3px rgba(0,0,0,0.1),0 5px 50px rgba(0,0,0,0.2);
+}
+#chatra.chatra--side-bottom {
+  bottom: 20px;
+}
+#chatra.chatra--side-left {
+  left: 20px;
+}
+#chatra.chatra--side-left.chatra--style-tab:not(.chatra--expanded) {
+  left: 10px;
+}
+#chatra.chatra--side-right {
+  right: 20px;
+}
+#chatra.chatra--side-right.chatra--style-tab:not(.chatra--expanded) {
+  right: 10px;
+}
+#chatra.chatra--side-left.chatra--expanded {
+  bottom: 20px;
+  left: 20px;
+}
+#chatra.chatra--side-right.chatra--expanded {
+  bottom: 20px;
+  right: 20px;
+}
+#chatra.chatra--pos-right {
+  right: 20px;
+}
+#chatra.chatra--pos-left {
+  left: 20px;
+}
+#chatra.chatra--pos-center {
+  left: 50%;
+}
+#chatra.chatra--pos-top.chatra--style-tab:not(.chatra--expanded) {
+  bottom: 100%;
+  margin-bottom: -20px;
+}
+#chatra.chatra--pos-top.chatra--style-round:not(.chatra--expanded) {
+  top: 20px;
+}
+#chatra.chatra--pos-bottom:not(.chatra--expanded) {
+  bottom: 20px;
+}
+#chatra.chatra--pos-middle:not(.chatra--expanded) {
+  bottom: 50%;
+}
+#chatra.chatra--mobile-widget.chatra--expanded:not(.chatra--transparent) {
+  max-width: none;
+  max-height: none;
+  top: 0 !important;
+  bottom: 0 !important;
+}
+#chatra.chatra--mobile-widget.chatra--expanded #chatra__iframe-wrapper,
+#chatra.chatra--safari.chatra--mobile-widget.chatra--expanded #chatra__iframe,
+#chatra.chatra--webkit.chatra--mobile-widget.chatra--expanded #chatra__iframe {
+  border-radius: .1px;
+}
+#chatra.chatra--mobile-widget.chatra--expanded.chatra--pos-right:not(.chatra--transparent) {
+  right: 0;
+}
+#chatra.chatra--mobile-widget.chatra--expanded.chatra--pos-left:not(.chatra--transparent) {
+  left: 0;
+}
+#chatra.chatra--mobile-widget.chatra--expanded.chatra--pos-center:not(.chatra--transparent) {
+  left: 0;
+}
+#chatra.chatra--mobile-widget.chatra--expanded.chatra--side-right:not(.chatra--transparent) {
+  right: 0;
+}
+#chatra.chatra--mobile-widget.chatra--expanded.chatra--side-left:not(.chatra--transparent) {
+  left: 0;
+}
+#chatra.chatra--transparent.chatra--expanded {
+  bottom: 10px;
+}
+#chatra.chatra--transparent.chatra--expanded #chatra__iframe-wrapper {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+#chatra.chatra--side-left.chatra--transparent,
+#chatra.chatra--pos-left.chatra--transparent {
+  left: 10px;
+}
+#chatra.chatra--side-right.chatra--transparent,
+#chatra.chatra--pos-right.chatra--transparent {
+  right: 10px;
+}
+#chatra.chatra--mobile-widget.chatra--transparent {
+  max-height: 300px;
+}
+#chatra.chatra--bg-white {
+  background: #fff;
+}
+</style><script src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/noerrors.js.下载" charset="UTF-8"></script><script src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/extpfeil.js.下载" charset="UTF-8"></script><style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style><style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://mathjax.cnblogs.com/3_2_1/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+</style></head>
+<body class="skin-simplememory no-navbar mathjax3 hljs-engine">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding">                    
+                    <a href="https://www.cnblogs.com/" title="开发者的网上家园" role="banner">
+                        <img src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/logo.svg" alt="博客园logo">
+                    </a>
+                </li>
+                    <li><a href="https://cnblogs.vip/">会员</a></li>
+                    <li><a href="https://cnblogs.vip/store">T恤</a></li>
+                <li>
+                    <a href="https://news.cnblogs.com/" onclick="countClicks(&#39;nav&#39;, &#39;skin-navbar-news&#39;)">新闻</a>
+                </li>
+                <li>
+                    <a href="https://q.cnblogs.com/" onclick="countClicks(&#39;nav&#39;, &#39;skin-navbar-q&#39;)">博问</a>
+                </li>
+                <li>
+                    <a href="https://ing.cnblogs.com/" onclick="countClicks(&#39;nav&#39;, &#39;skin-navbar-ing&#39;)">闪存</a>
+                </li>
+                <li><a href="https://www.cnblogs.com/cmt/p/18341478">赞助商</a></li>
+                <li><a href="https://chat2db-ai.com/" target="_blank" onclick="countClicks(&#39;nav&#39;, &#39;skin-navbar-chat2db&#39;)">Chat2DB</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search dropdown" action="https://zzk.cnblogs.com/s" method="get" role="search">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="search" tabindex="3" autocomplete="off">
+                        <button id="zzk_search_button" onclick="window.navbarSearchManager.triggerActiveOption()">
+                            <img id="search_icon" class="focus-hidden" src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/search.svg" alt="搜索">
+                            <img class="hidden focus-visible" src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/enter.svg" alt="搜索">
+                        </button>
+                        <ul id="navbar_search_options" class="dropdown-menu quick-search-menu">
+                            <li tabindex="0" class="active" onclick="zzkSearch(event, document.getElementById(&#39;zzk_search_input&#39;).value)">
+                                <div class="keyword-wrapper">
+                                    <img src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/search.svg" alt="搜索">
+                                    <div class="keyword"></div>
+                                </div>
+                                <span class="search-area">所有博客</span>
+                            </li>
+                                    <li tabindex="1" onclick="zzkBlogSearch(event, &#39;RioTian&#39;, document.getElementById(&#39;zzk_search_input&#39;).value)">
+                                        <div class="keyword-wrapper">
+                                            <img src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/search.svg" alt="搜索">
+                                            <div class="keyword"></div>
+                                        </div>
+                                        <span class="search-area">当前博客</span>
+                                    </li>
+                        </ul>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: none;">
+                        <img id="new_post_icon" class="navbar-icon" src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/newpost.svg" alt="写随笔">
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/myblog.svg" alt="我的博客">
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/message.svg" alt="短消息">
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <a id="navbar_lite_mode_indicator" data-current-page="blog" style="display: none" href="javascript:void(0)" alt="简洁模式" title="简洁模式启用，您在访问他人博客时会使用简洁款皮肤展示">
+                        <img class="navbar-icon" src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/lite-mode-on.svg" alt="简洁模式">
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/avatar-default.svg" alt="用户头像">
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="https://vip.cnblogs.com/my">会员中心</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/css2" rel="stylesheet">
+
+<script>
+  // 添加二级菜单
+  function addSubmenuItem(menuItemId, text, url) {
+    var menuItem = document.getElementById(menuItemId);
+    //  如果没有二级菜单先创建
+    if (menuItem.getElementsByTagName("ul")[0] == undefined) {
+      var submenu = document.createElement("ul");
+      submenu.setAttribute("class", "submenu");
+      menuItem.append(submenu);
+    }
+    var submenu = menuItem.getElementsByTagName("ul")[0];
+    var li = document.createElement("li");
+    li.innerHTML = '<a href="' + url + '">' + text + "</a>";
+    submenu.append(li);
+  }
+
+  (function (jQuery) {
+    var arr = [],
+      slice = arr.slice;
+
+    var methods = {
+      init: function () {},
+      addNav: function (index, name, url, menuItemId) {
+        var $nav = $(this),
+          $items = $nav.children(),
+          $item = $(
+            '<li id="' +
+              menuItemId +
+              '"><a class="menu" href="' +
+              url +
+              '">' +
+              name +
+              "</a></li>",
+          );
+        if (index < $items.length) {
+          $items.eq(index).before($item);
+        } else {
+          $nav.append($item);
+        }
+        return this;
+      },
+      removeNav: function (index) {
+        var $nav = $(this);
+        $nav.children(":eq(" + index + ")").remove();
+        return this;
+      },
+    };
+
+    $.fn.cnblogsNav = function (method) {
+      if (methods[method]) {
+        return methods[method].apply(this, slice.call(arguments, 1));
+      } else if (typeof method === "object" || !method) {
+        return methods.init.apply(this, arguments);
+      } else {
+        $.error("Method " + method + " does not exist on jQuery.cnblogsNav");
+      }
+    };
+  })(jQuery);
+  /*
+        index：添加的导航的索引，从0开始
+        name：导航的名称
+        url：导航的url
+    */
+  $(function () {
+    var $navList = $("#navList");
+    var index = 0;
+
+    // clear all the list items
+    document.getElementById("navList").innerHTML = "";
+
+    // add new items
+    $navList.cnblogsNav(
+      "addNav",
+      index++,
+      "🏡 Home",
+      "https://www.cnblogs.com/RioTian/",
+      "menuItemHome",
+    );
+    $navList.cnblogsNav(
+      "addNav",
+      index++,
+      "👨🏻‍🎓 About",
+      "https://www.cnblogs.com/RioTian/p/12330051.html",
+      "menuItemAbout",
+    );
+    $navList.cnblogsNav(
+      "addNav",
+      index++,
+      "🔗 Links",
+      "javascript:void(0)",
+      "menuItemLinks",
+    );
+    $navList.cnblogsNav(
+      "addNav",
+      index++,
+      "🔑 Admin",
+      "https://i.cnblogs.com/",
+      "menuItemAdmin",
+    );
+    // $navList.cnblogsNav('addNav', index++, '📦 Comment', 'https://www.tapechat.net/uu/IIBNVC/K5O3UQ0P');
+    // $navList.cnblogsNav('addNav', index++, '📧 Email','https://mail.google.com/mail/u/0/#inbox?compose=new', 'menuItemEmail');
+
+    // Test cases
+    // https://emojipedia.org/
+    // http://emojihomepage.com/
+    addSubmenuItem(
+      "menuItemLinks",
+      "📃 MainPage",
+      "https://home.cnblogs.com/u/RioTian/",
+    );
+    addSubmenuItem(
+      "menuItemLinks",
+      "📝 NewPost",
+      "https://i.cnblogs.com/posts/edit",
+    );
+    addSubmenuItem(
+      "menuItemLinks",
+      "⭐ 代码片段",
+      "https://www.cnblogs.com/RioTian/p/14678221.html",
+    );
+    addSubmenuItem(
+      "menuItemLinks",
+      "🔍 文章搜索",
+      "https://zzk.cnblogs.com/my?app=Blogpost",
+    );
+    addSubmenuItem("menuItemLinks", "🐙 Github", "https://github.com/RivTian");
+    // addSubmenuItem('menuItemLinks', '📃 过客导航', 'https://yafine-blog.cn/box/#');
+    addSubmenuItem(
+      "menuItemLinks",
+      "💡 蒟蒻大佬",
+      "https://www.jvruo.com/index.php",
+    );
+    addSubmenuItem(
+      "menuItemLinks",
+      "💡 Hongyu大佬",
+      "https://www.cnblogs.com/orion-orion/",
+    );
+    // addSubmenuItem('menuItemLinks', '📘 sshwy\'note', 'https://notes.sshwy.name/directory/');
+    // addSubmenuItem('menuItemLinks', '🌟 ZeroZone', 'https://hellozhaozheng.github.io/');
+    addSubmenuItem("menuItemLinks", "🕛 中午吃什么", "http://chishenme.xyz/");
+
+    // addSubmenuItem('menuItemLinks', '🎵 Netease', 'https://music.163.com/#/user/home?id=296366418');
+    // addSubmenuItem('menuItemLinks', '💡 fogsail大佬', 'https://www.fogsail.net/');
+    // addSubmenuItem('menuItemLinks', '🔋 千千大佬', 'https://www.dreamwings.cn/');
+    // addSubmenuItem('menuItemLinks', '💭 Weibo', '');
+    // addSubmenuItem('menuItemLinks', '📘 Zhihu', 'https://www.zhihu.com/people/2heart');
+    // addSubmenuItem('menuItemLinks', '📗 Douban', '');
+    // addSubmenuItem('menuItemLinks', '🌎 Facebook', '');
+
+    // addSubmenuItem('menuItemLinks', '📧 Email', 'https://mail.google.com/mail/u/0/#inbox?compose=new');
+    // addSubmenuItem('menuItemLinks', '👨‍🌾 Leetcode', 'https://leetcode-cn.com/u/murabito-b/');
+
+    // click again to hide the submenu on mobile
+    if (isMobile()) {
+      var menuItemLinks = document.getElementById("menuItemLinks");
+      menuItemLinks.onclick = function () {
+        var submenu = menuItemLinks.getElementsByTagName("ul")[0];
+        var status = submenu.style.display;
+        if (status == "none") {
+          submenu.style.display = "block";
+        } else {
+          submenu.style.display = "none";
+        }
+      };
+    }
+
+    // change the browser tab icon
+    document.getElementById("favicon").href =
+      "https://cdn.jsdelivr.net/gh/RivTian/Blogimg/img/20220218112744.svg";
+    // document.getElementById('favicon').href ='https://images.cnblogs.com/cnblogs_com/RioTian/2064912/o_211119014306_Yuru02.png';
+    // change the title logo
+    // var logo = document.getElementById("blogLogo");
+    // logo.setAttribute('src', 'https://pic.cnblogs.com/avatar/1849509/20220721084429.png');
+    // logo.setAttribute(
+    //   "src",
+    //   "https://images.cnblogs.com/cnblogs_com/RioTian/2064912/o_220613114113_Rin-Summer.jpg",
+    // );
+    // logo.setAttribute("alt", "Administrator");
+
+    // 不注释掉旋转似乎手机端看不到 logo
+    // logo.style.transform = 'rotateY(180deg)';
+    // click the title logo to jump to admin backend
+    document
+      .getElementById("lnkBlogLogo")
+      .setAttribute("href", "https://i.cnblogs.com/");
+
+    // change the browser tab title
+    var title = document.getElementsByTagName("title")[0];
+    title.innerText = title.innerText.replace(" - 博客园", "");
+
+    // post desc
+    var dayList = document.getElementsByClassName("day");
+    for (var i = 0; i < dayList.length; i++) {
+      var postdesc = dayList[i].getElementsByClassName("postDesc")[0];
+      postdesc.innerText = postdesc.innerText.replace(
+        "Koshkaaa",
+        "by Koshkaaaa",
+      );
+    }
+  });
+</script>
+
+    </div>
+
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://i.cnblogs.com/"><img id="blogLogo" src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/o_240827133945_WechatIMG89.jpg" alt="Administrator"></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/RioTian">RioTian の Blogs</a>
+</h1>
+<h2>追光而遇，沐光而行</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList"><li id="menuItemHome"><a class="menu" href="https://www.cnblogs.com/RioTian/">🏡 Home</a></li><li id="menuItemAbout"><a class="menu" href="https://www.cnblogs.com/RioTian/p/12330051.html">👨🏻‍🎓 About</a></li><li id="menuItemLinks"><a class="menu" href="javascript:void(0)">🔗 Links</a><ul class="submenu"><li><a href="https://home.cnblogs.com/u/RioTian/">📃 MainPage</a></li><li><a href="https://i.cnblogs.com/posts/edit">📝 NewPost</a></li><li><a href="https://www.cnblogs.com/RioTian/p/14678221.html">⭐ 代码片段</a></li><li><a href="https://zzk.cnblogs.com/my?app=Blogpost">🔍 文章搜索</a></li><li><a href="https://github.com/RivTian">🐙 Github</a></li><li><a href="https://www.jvruo.com/index.php">💡 蒟蒻大佬</a></li><li><a href="https://www.cnblogs.com/orion-orion/">💡 Hongyu大佬</a></li><li><a href="http://chishenme.xyz/">🕛 中午吃什么</a></li></ul></li><li id="menuItemAdmin"><a class="menu" href="https://i.cnblogs.com/">🔑 Admin</a></li></ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 1229&nbsp; </span>
+<span id="stats_article_count">文章 - 17&nbsp; </span>
+<span id="stats-comment_count">评论 - 378&nbsp; </span>
+<span id="stats-total-view-count">阅读 - 
+<span title="总阅读数: 982293">
+98万</span></span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                <a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/RioTian/p/14761864.html" title="发布于 2021-05-12 21:47">
+    <span role="heading" aria-level="2">将Sublime Text打造为轻量级的C++ IDE</span>
+    
+
+</a><button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown">
+<p>本文较为详细地介绍了在Windows系统下，如何配置Sublime Text的C++编译运行环境。目前实现了了可以在Sublime Text按下快捷键后，调出CMD或者终端来运行C/C++程序，从而解决了Sublime Text无法接收输入的问题。<br>
+另外本文也介绍了一些Sublime Text的使用和用户配置备份的方法，具有一定的参考作用。</p>
+<h2 id="1使用背景">1.使用背景<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<p>现在搞ACM-ICPC的比赛，经常写算法程序。说一说使用过的IDE吧：</p>
+<ul>
+<li>
+<p>Visual Studio 2013~2019</p>
+<p>配合<code>Visual Assist</code>插件真的非常好用，没有之一！无论是写程序或者调试代码都能非常优雅地完成！当然我只用到了这个它的一小部分，不过我感觉这种企业级别的IDE绝对是写工程的不二选择。可惜在比赛时并不会提供这么优秀的IDE，而且想 <code>VS</code> 这种大型IDE是很吃机器配置的。在老式台式机上打开项目的速度几乎崩溃。</p>
+</li>
+<li>
+<p>CodeBlock 和 Dev</p>
+<p>比赛举办方通常提供的IDE，一个开源的轻量级的IDE。体积不大，功能也比较齐全，不过个人稍微觉得有几个缺点：界面颜值较低，虽然有字体颜色等几项可调节，但两个IDE给我的感觉就是不好看（老颜狗了</p>
+<p>关于下载速度的话，由于我电脑上常年有科学方法所以没有感到下载速度慢</p>
+</li>
+<li>
+<p>VS Code</p>
+<p>VS Code同VS一样出自微软，曾经我写过 <a href="https://www.cnblogs.com/RioTian/p/13812319.html" target="_blank">Windows VS Code 配置 C/C++ 开发环境教程</a> ，再看发布时间发现已经使用了接近一年了（是目前使用时间最长的IDE软件），但作为一个追求简洁和敲代码敲个爽的蒟蒻决定放弃 VS Code（尽管各方面已经被我调教的很好了）</p>
+</li>
+</ul>
+<h2 id="2-下载安装">2. 下载安装<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<p><a href="http://www.sublimetext.com/" target="_blank" rel="noopener nofollow">官网下载</a>。Sublime Text是需要激活的，当然你不激活也可以正常使用，只是它会时不时提醒你而已。有能力的话，还是可以支持一下这么优秀的一款软件~</p>
+<h3 id="21-细节配置">2.1 细节配置<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p><strong>字体、主题风格等设置</strong></p>
+<p>当需要更改主题时，直接可以通过<code>Preferences —&gt; Color Scheme</code>来设置，主界面上只能改变字体的大小。若需要改变字体和字体大小，可以先<code>Preferences —&gt; Browse Packages</code>，找到<code>Default</code>文件夹，然后找到<code>Preferences.sublime-settings</code>这个文件，用Sublime Text 3打开这个文件，这个文件保存了一些常用的设置，比如字体、主题风格、是否显示行号、智能提示延迟时间等，可以根据自己的需要自行设置。</p>
+<p><strong>打开（关闭）侧边栏、右边缩略图等常用面板</strong></p>
+<p>默认情况下Sublime Text 3是没有打开侧边栏文件浏览器的，可以通过<code>View</code>来打开和关闭侧边栏，默认情况下Sublime Text 3右边是有文件的缩略图的，可以通过<code>View</code>来打开和关闭缩略图。</p>
+<p><strong>快捷键寻找文件和已定义的函数</strong></p>
+<p>在Sublime Text 3中可以非常快速地切换到想找的文件，只需要通过<code>Ctrl+P</code>打开切换面板即可。然后输入想找的文件名称就可以快速找切换到该文件了。如果想要找函数，可以通过输入<code>@+函数名</code>可以快速切换到定义该函数的文件。</p>
+<h3 id="22-插件安装">2.2 插件安装<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<blockquote>
+<p>这里记录了我最常用的几个插件</p>
+</blockquote>
+<h4 id="package-control">Package Control<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h4>
+<p><em>必装的插件，有了它可以很方便的安装和管理其他的插件。</em></p>
+<ol>
+<li>
+<p>在Sublime Text中使用快捷键<code>ctrl+``调出</code>console<code>或者点击：</code>View<code>-&gt;</code>Show Console`.然后把以下代码(适用于Sublime Text 3)复制进去:</p>
+<pre class="highlighter-hljs" data-mac-style="true" highlighted="true"><code class="language-json highlighter-hljs hljs"> import urllib.request<span class="hljs-punctuation">,</span>os<span class="hljs-punctuation">,</span>hashlib; h = '<span class="hljs-number">6</span>f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef93d5f746d80ef60'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http<span class="hljs-punctuation">:</span><span class="hljs-comment">//packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)</span>
+</code></pre>
+<p>如果安装失败请打开全局代理或者手动安装</p>
+<p>手动下载方法：</p>
+<ul>
+<li>点击 Preferences <em>&gt;</em> Browse Packages…menu</li>
+<li>在packages文件夹的上层目录有一个Installed Packages目录</li>
+<li>点击链接下载 <a href="https://link.zhihu.com/?target=https%3A//packagecontrol.io/Package%20Control.sublime-package" target="_blank" rel="noopener nofollow">Package Control.sublime-package</a> 并且复制到 Installed Packages目录</li>
+<li>重启软件</li>
+</ul>
+</li>
+<li>
+<p>重启 Sublime Text</p>
+</li>
+<li>
+<p>在<code>Perferences-&gt;package settings</code>中看到<code>package control</code>这一项，则安装成功。</p>
+</li>
+<li>
+<p><code>Ctrl+Shift+p</code>调出命令面板，选择<code>Install Package</code>并回车，在弹出的界面输入你想要安装的插件名字，回车安装即可。</p>
+</li>
+<li>
+<p>这里给出一些我用到的插件：</p>
+<ul>
+<li>
+<p><strong>ConvertToUTF8</strong> ： 解决中文在sublime中乱码的问题</p>
+<p>如果出现乱码，只要在<code>File</code>里面找到<code>Encoding</code>并选择合适的编码模式即可，快捷键<code>Ctrl+Shift+C</code>。</p>
+</li>
+<li>
+<p><strong>AStyleFormatter</strong>：Sublime Text 3下的C/C++代码整理工具，好像还支持java</p>
+<p>设置在文件保存时的自动格式化：<code>Preferences —&gt; Packge Settings -&gt;sublimeAStyleFormatter -&gt;(setting default) </code></p>
+<p>修改 <code>autoformat_on_save</code> 的值为 <code>true</code> 即可</p>
+<p>关于格式化的样式也可以在这里修改，具体选择的中文解释：Here</p>
+</li>
+<li>
+<p><strong>EasyClangComplete</strong>：C++极简极速快速补全的插件</p>
+</li>
+<li>
+<p><strong>SyncedSideBarBg</strong>： 解决sidebar颜色和sublime背景不统一的问题</p>
+</li>
+<li>
+<p><strong>SideBarEnhancements</strong>： 侧边栏增强</p>
+</li>
+</ul>
+</li>
+<li>
+<p>备注</p>
+<ul>
+<li>打开<code>sidebar</code>的方法：快捷键<code>Ctrl+k,Ctrl+b</code>或者<code>View</code>-&gt;<code>SideBar</code>-&gt;<code>Show SideBar</code></li>
+<li>要使用<code>SideBarEnhancements</code>需要在<code>File</code>-&gt;<code>Open Folder</code>中打开一个文件夹，才能在sidebar中进行新建，删除等操作。</li>
+<li>插件的设置可以在：<code>Perferences-&gt;package settings</code>进行如用户配置，快捷键配置等设置</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-配置c编译环境">3. 配置C++编译环境<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<ol>
+<li>
+<p>下载编译器（已有的可以跳过此步)：<code>MinGW</code>或者<code>tdm gcc</code>二选一即可。推荐用<code>tdm gcc</code>。<br>
+安装地址：<a href="http://sourceforge.net/projects/mingw/" target="_blank" rel="noopener nofollow">minGW</a>、<a href="https://sourceforge.net/projects/tdm-gcc/?source=directory" target="_blank" rel="noopener nofollow">tdm-gcc</a>。鉴于外国网站网速感人，下面丢两个我离线下载到百度网盘的版本,如失效可留言：<a href="http://pan.baidu.com/s/1i4mC841" target="_blank" rel="noopener nofollow">minGW 网盘地址</a>、<a href="http://pan.baidu.com/s/1c1qQ0dq" target="_blank" rel="noopener nofollow">tdm gcc网盘地址</a>。最新版本请以第1,2条下载地址的为准。</p>
+</li>
+<li>
+<p><code>tdm gcc</code>的安装过程非常简单，下载下来直接next,next,next就可以了。<code>MinGW</code>的安装过程稍稍麻烦一些。把之前的minGW安装器安装完之后打开，如图勾选</p>
+<p><a data-caption="勾选"><img src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/20210513171129.png" alt="勾选" loading="lazy"></a><div class="img-caption">勾选</div></p>
+<p>，然后在<code>Installation</code>-&gt;<code>Apply Changes</code>。</p>
+</li>
+<li>
+<p>设置环境变量（win10环境）：<code>此电脑</code>-&gt;<code>属性</code>-&gt;<code>高级系统设置</code>-&gt;<code>环境变量</code>-&gt;<code>系统变量中的path</code>-&gt;添加你的编译器路径下的<code>bin目录</code>。比如我的minGW安装路径是：<code>C:\MinGW</code>,则添加<code>C:\MinGW\bin</code>。我的<code>tdm gcc</code>安装路径是: <code>C:\TDM-GCC-64</code>，则添加<code>C:\TDM-GCC-64\bin</code>。按你安装的编译器是什么来选择，这里注意查看这个bin目录下是否有<code>g++.exe,gcc.exe</code>等，有则是正常的路径。</p>
+</li>
+<li>
+<p>测试g++/gcc环境：在cmd中输入<code>g++ -v</code></p>
+<p><a data-caption="gcc 验证"><img src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/20210513171218.png" alt="gcc 验证" loading="lazy"></a><div class="img-caption">gcc 验证</div></p>
+</li>
+<li>
+<p>在Sublime Text中编写cpp程序测试：<br>
+在Sublime Text新建文件<code>demo.cpp</code>并按<code>ctrl+b</code>编译输出。测试成功如图所示</p>
+<p><a data-caption="运行测试"><img src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/20210513171321.png" alt="运行测试" loading="lazy"></a><div class="img-caption">运行测试</div></p>
+<p>（注：你可以在<code>tool</code>-&gt;<code>build-system</code>中选择编译系统。）</p>
+</li>
+</ol>
+<h3 id="31-sublime-build-system配置">3.1 Sublime build System配置<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>很快你会发现，按上面的方法写出来的程序只能输出，不能输入。不像我们在IDE上面编写的程序那样，执行的时候会弹出CMD来接受输入，那么这时候我们需要自定义一个<code>Sublime build System</code></p>
+<ol>
+<li>
+<p>首先花一点点时间来了解一些基础知识：</p>
+<ul>
+<li>
+<p><code>sublime build system</code>目录:</p>
+<pre class="highlighter-hljs" data-mac-style="true" highlighted="true"><code class="language-json highlighter-hljs hljs"> <span class="hljs-punctuation">{</span>
+     <span class="hljs-attr">"folders"</span><span class="hljs-punctuation">:</span>
+     <span class="hljs-punctuation">[</span>
+         <span class="hljs-punctuation">{</span>
+             <span class="hljs-attr">"follow_symlinks"</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+             <span class="hljs-attr">"path"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"."</span>
+         <span class="hljs-punctuation">}</span>
+     <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+     <span class="hljs-attr">"build_systems"</span><span class="hljs-punctuation">:</span>
+     <span class="hljs-punctuation">[</span>
+         <span class="hljs-punctuation">{</span>
+             <span class="hljs-comment">// 在选定 Tools | Build System | Automatic 时使用。Sublime Text使用这个 选择器自动为活动试图选择构建系统</span>
+             <span class="hljs-attr">"selector"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"source.python"</span><span class="hljs-punctuation">,</span>
+             <span class="hljs-comment">// 在运行``cmd``前会切换到该目录。运行结束后会切换到原来的目录。</span>
+             <span class="hljs-attr">"working_dir"</span><span class="hljs-punctuation">:</span><span class="hljs-string">"D:/Developer/pyenv/python27"</span><span class="hljs-punctuation">,</span>
+             <span class="hljs-comment">// 输出``cmd``的编码。必须是合法的Python编码，缺省为``UTF-8``</span>
+             <span class="hljs-attr">"encoding"</span><span class="hljs-punctuation">:</span><span class="hljs-string">"UTF-8"</span><span class="hljs-punctuation">,</span>
+             <span class="hljs-comment">// 在环境变量被传递给``cmd``前，将他们封装成词典。</span>
+             <span class="hljs-attr">"env"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span><span class="hljs-attr">"PYTHONPATH"</span><span class="hljs-punctuation">:</span><span class="hljs-string">"."</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+             <span class="hljs-comment">// 如果该选项为``true`` ，``cmd``则可以通过shell运行</span>
+             <span class="hljs-attr">"shell"</span><span class="hljs-punctuation">:</span><span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+             <span class="hljs-comment">// 该选项可以在调用``cmd``前替换当前进程的’ PATH 。原来的’ PATH 将在运行后恢复。使用这个选项可以在不修改系统设置的前提下将目录添加到’ PATH 中</span>
+             <span class="hljs-attr">"path"</span><span class="hljs-punctuation">:</span><span class="hljs-string">"./Scripts;%PATH%"</span><span class="hljs-punctuation">,</span>
+             <span class="hljs-comment">// For Mac OS X and Linux and Unix</span>
+             <span class="hljs-comment">//"path":"/Users/user/work/myvirtualenv/bin:$PATH",</span>
+             <span class="hljs-attr">"name"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Run virtualenv python"</span><span class="hljs-punctuation">,</span>
+             <span class="hljs-comment">// 包括命令及其参数数组。如果不指定绝对路径，外部程序会在你系统的:const:PATH 环境变量中搜索。</span>
+             <span class="hljs-attr">"cmd"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">"python.exe"</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"-u"</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"$file"</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+             <span class="hljs-comment">// ``file_regex``选项用Perl的正则表达式来捕获构建系统的错误输出，主要包括四部分内容，分别是 file name*, line number, column number and error message. Sublime Text 在匹配模式中使用分组的方式捕获信息。file name 和 *line number*域是必须的</span>
+             <span class="hljs-attr">"file_regex"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"^[ ]*File \"(...*?)\", line ([0-9]*)"</span>
+             <span class="hljs-comment">// variants 用来替代主构建系统的备选。如果构建系统的选择器与激活的文件匹配，变量的``名称``则 会出现在 Command Palette 中。</span>
+             <span class="hljs-comment">// line_regex: 当``file_regex``与该行不匹配，如果``line_regex``存在，并且确实与当前行匹配， 则遍历整个缓冲区，直到与``file regex``匹配的行出现，并用这两个匹配决定最终要跳转的文件 或行</span>
+
+             <span class="hljs-comment">// $file_path    当前文件所在路径, 比如 C:\Files.</span>
+             <span class="hljs-comment">// $file   当前文件的完整路径, 比如 C:\Files\Chapter1.txt.</span>
+             <span class="hljs-comment">// $file_name  当前文件的文件名, 比如 Chapter1.txt.</span>
+             <span class="hljs-comment">// $file_extension 当前文件的扩展名, 比如 txt.</span>
+             <span class="hljs-comment">// $file_base_name 当前文件仅包含文件名的部分, 比如 Document.</span>
+             <span class="hljs-comment">// $packages   Packages 文件夹的完整路径.</span>
+             <span class="hljs-comment">// $project    当前项目文件的完整路径.</span>
+             <span class="hljs-comment">// $project_path   当前项目文件的路径.</span>
+             <span class="hljs-comment">// $project_name   当前项目文件的名称.</span>
+             <span class="hljs-comment">// $project_extension  当前项目文件的扩展部分.</span>
+             <span class="hljs-comment">// $project_base_name  当前项目仅包括名的部分.</span>
+         <span class="hljs-punctuation">}</span>
+     <span class="hljs-punctuation">]</span>
+ <span class="hljs-punctuation">}</span>
+</code></pre>
+</li>
+<li>
+<p>g++编译命令：<br>
+以<code>Test.cpp</code>为例，命令: <code>g++ Test.cpp</code>。生成默认为a.exe的文件，这个过程包含了编译和链接。再说下<code>-o</code>命令，<code>-o</code>命令表示输出的意思，gcc/g++命令是非常灵活的，你不指定输出的文件名的时候默认生成的是.exe文件。你要输出Test.exe的话可以用：<code>g++ -o Test.exe Test.cpp</code>。-o命令是输出的意思，这样就输出了<code>Test.exe</code>。命令:<code>-Wall</code>：输出所有警告信息</p>
+</li>
+<li>
+<p>cmd命令<br>
+<code>/c</code>:当执行完相应的命令(在命令提示符中)后自动退出命令提示符;<code>pause</code>:暂停命令,执行时会在命令行窗口显示“请按任意键继续. . .”并等待你按键。;当路径中的文件名/文件夹名字<strong>含有空格</strong>时，需要用<code>""</code>将这个文件名/文件夹名字括起来。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>开始配置：(这里的介绍来自 <strong>Echo 学长</strong>)<br>
+<code>Sublime Text 3</code>-&gt;<code>Tools</code>-&gt;<code>Build System</code>-&gt;<code>New Build System</code>,输入以下内容：</p>
+<pre class="highlighter-hljs" data-mac-style="true" highlighted="true"><code class="language-json highlighter-hljs hljs"> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">"encoding"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"utf-8"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"working_dir"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"$file_path"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"shell_cmd"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"g++ -Wall \"${file}\" -o \"${file_path}/${file_base_name}\""</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"file_regex"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">"selector"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"source.c++"</span><span class="hljs-punctuation">,</span>
+
+      <span class="hljs-attr">"variants"</span><span class="hljs-punctuation">:</span>
+      <span class="hljs-punctuation">[</span>
+          <span class="hljs-punctuation">{</span>   
+          <span class="hljs-attr">"name"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Run"</span><span class="hljs-punctuation">,</span>
+              <span class="hljs-attr">"shell_cmd"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"g++ -Wall \"${file}\" -o \"${file_base_name}\" &amp;&amp; start cmd /c \"\"${file_path}/${file_base_name}\" &amp; pause\""</span>
+          <span class="hljs-punctuation">}</span>
+      <span class="hljs-punctuation">]</span>
+  <span class="hljs-punctuation">}</span>
+</code></pre>
+<p>解释一下</p>
+<pre class="highlighter-hljs" data-mac-style="true" highlighted="true"><code class="language-json highlighter-hljs hljs">  <span class="hljs-attr">"shell_cmd"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"g++ -Wall "</span><span class="hljs-punctuation">{</span>file<span class="hljs-punctuation">}</span>\<span class="hljs-string">" -o \"{file_base_name}"</span> &amp;&amp; start cmd /c <span class="hljs-string">""</span><span class="hljs-punctuation">{</span>file_path<span class="hljs-punctuation">}</span>/<span class="hljs-punctuation">{</span>file_base_name<span class="hljs-punctuation">}</span><span class="hljs-string">" &amp; pause"</span>
+</code></pre>
+<p>以<code>d:test.cpp</code>为例，这里相当于在cmd中执行了<code>g++ -Wall "D:\blank and blank\test and test.cpp" -o "D:\blank and blank/test and test"</code>，这句话的意思就是：<strong>用g++编译器编译D:\blank and blank\test and test.cpp文件，并在译D:\blank and blank\目录下生成test and test文件</strong>。之前都是直接从网上复制下来别人写的，结果都没有解决<strong>文件名和文件路径中</strong>包含空格的问题。我这里使用了<strong>转义字符\和”</strong>来把文件名和文件路径用双引号括起来，解决了空格的问题。</p>
+<pre class="highlighter-hljs" data-mac-style="true" highlighted="true"><code class="highlighter-hljs hljs language-dockerfile">  start <span class="hljs-keyword">cmd</span><span class="language-bash"> /c \"\"<span class="hljs-variable">${file_path}</span>/<span class="hljs-variable">${file_base_name}</span>\" &amp; pause\"</span>
+</code></pre>
+<p>类似地，这句话的意思就是：<strong>启动cmd并输入命令”D:\blank and blank/test and test” &amp; pause</strong>,运行结果如图：</p>
+<p><a data-caption="运行结果"><img src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/运行结果.png" alt="运行结果" loading="lazy" class="medium-zoom-image"></a><div class="img-caption">运行结果</div></p>
+<p>你可以在Sublime Text中的console中看到你在<code>ctrl+b</code>编译之后的执行的命令<br>
+<a data-caption="st console"><img src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/st_console.png" alt="st console" loading="lazy" class="medium-zoom-image"></a><div class="img-caption">st console</div></p>
+</li>
+<li>
+<p>保存配置文件：<br>
+按<code>ctrl+s</code>保存配置文件，文件名<code>xx.sublime-bulid</code>,这里后缀名一定要是<code>sublime-bulid</code>,然后你就可以在<code>Preference</code>-&gt;<code>Browse Package</code>-&gt;<code>user</code>文件夹中找到你保存的<code>xx.sublime-bulid</code>文件了。接下来在<code>tool</code>-&gt;<code>build-system</code>中选择xx（你刚刚保存的文件的文件名）。然后你就可以直接在Sublime Text中按<code>ctrl+b</code>或者<code>ctrl+shift+b</code>来编译运行了，程序都是以cmd的形式运行的。</p>
+</li>
+</ol>
+<h2 id="4-开启c11">4. 开启C++11<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<p>开启c++11只需要在刚刚的配置文件中加入<code>-std = c++11</code>，完整的配置如下:</p>
+<pre class="highlighter-hljs" data-mac-style="true" highlighted="true"><code class="language-json highlighter-hljs hljs">  <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">"encoding"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"utf-8"</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"working_dir"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"$file_path"</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"shell_cmd"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"g++ -Wall -std=c++11 \"${file}\" -o \"${file_path}/${file_base_name}\""</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"file_regex"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$"</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">"selector"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"source.c++"</span><span class="hljs-punctuation">,</span>
+
+    <span class="hljs-attr">"variants"</span><span class="hljs-punctuation">:</span>
+    <span class="hljs-punctuation">[</span>
+        <span class="hljs-punctuation">{</span>   
+        <span class="hljs-attr">"name"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"Run"</span><span class="hljs-punctuation">,</span>
+            <span class="hljs-attr">"shell_cmd"</span><span class="hljs-punctuation">:</span> <span class="hljs-string">"g++ -Wall -std=c++11 \"${file}\" -o \"${file_base_name}\" &amp;&amp; start cmd /c \"\"${file_path}/${file_base_name}\" &amp; pause\""</span>
+        <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h2 id="5snippets">5.Snippets<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<p>点击<code>Tools-&gt;New Snippet</code>之后，会新建一个文件，内容如下：</p>
+<pre class="highlighter-hljs" data-mac-style="true" highlighted="true"><code class="language-xml highlighter-hljs hljs"><span class="hljs-tag">&lt;<span class="hljs-name">snippet</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">content</span>&gt;</span>&lt;![CDATA[
+Hello, ${1:this} is a ${2:snippet}. //这里输入你想要键入的代码～
+]]&gt;<span class="hljs-tag">&lt;/<span class="hljs-name">content</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Optional: Set a tabTrigger to define how to trigger the snippet --&gt;</span>
+    <span class="hljs-comment">&lt;!-- &lt;tabTrigger&gt;hello&lt;/tabTrigger&gt; --&gt;</span> //这里把hello换成你想要使用的快捷键。
+    <span class="hljs-comment">&lt;!-- Optional: Set a scope to limit where the snippet will trigger --&gt;</span>
+    <span class="hljs-comment">&lt;!-- &lt;scope&gt;source.python&lt;/scope&gt; --&gt;</span> //这里选择起作用的文件类型
+<span class="hljs-tag">&lt;/<span class="hljs-name">snippet</span>&gt;</span>
+</code></pre>
+<p>设置完毕之后，<code>Ctrl+S</code>保存，默认会保存在User文件夹下，为了方便管理，不妨新建一个Snippet文件夹，后缀名为<code>.sublime-snippet</code>。保存好之后，就可以使用啦～ 用我自己的一个Snippet文件举例：</p>
+<blockquote>
+<p>同样保存配置，文件名格式：<code>xx.init.sublime-snippet</code>。保存后也是可以在<code>Preference</code>-&gt;<code>Browse Package</code>-&gt;<code>user</code>文件夹中找到。</p>
+<p>Sublime Text自带的snippet可以在<code>sublime text安装目录</code>-&gt;<code>Packages</code>中找到。<br>
+以<code>C++</code>为例：<br>
+<code>C:\Program Files\Sublime Text 3\Packages\c++.sublime-package</code>。<br>
+把后缀名改成：<code>c++.zip</code>即可用压缩文件打开。里面就有Sublime自带的<code>snippet</code>，用sublime text打开修改即可。修改完毕之后记得把<code>.zip</code>改回<code>.sublime-package</code>。</p>
+</blockquote>
+<pre class="highlighter-hljs" data-mac-style="true" highlighted="true"><code class="language-xml highlighter-hljs hljs"><span class="hljs-tag">&lt;<span class="hljs-name">snippet</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">content</span>&gt;</span>
+&lt;![CDATA[
+#include&lt;bits/stdc++.h&gt;
+using namespace std;
+using ll = long long;
+void solve() {
+    $1
+}
+int main() {
+    ios::sync_with_stdio(false), cin.tie(nullptr);
+    solve();
+    return 0;
+}
+]]&gt;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">content</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Optional: Set a tabTrigger to define how to trigger the snippet --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">tabTrigger</span>&gt;</span>qq<span class="hljs-tag">&lt;/<span class="hljs-name">tabTrigger</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">description</span>&gt;</span>单组输入<span class="hljs-tag">&lt;/<span class="hljs-name">description</span>&gt;</span> //描述信息，可选
+    <span class="hljs-comment">&lt;!-- Optional: Set a scope to limit where the snippet will trigger --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>source.c, source.c++<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">snippet</span>&gt;</span>
+</code></pre>
+<p>这样在我敲下 <code>qq</code> 和 <code>Tab</code> 以后会自动将<code>qq</code>转换成我预先设定的代码。</p>
+<blockquote>
+<p>关于代码里的 <code>$1</code> 代表转换代码以后输入光标所在位置，同样的可以设置  <code>$2</code> 为在按下 Tab 以后跳转的位置</p>
+</blockquote>
+<h2 id="5备份">5.备份<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<p>配置到现在，Sublime也算用的顺手了，要是换一台电脑都得这么捣鼓一下，肯定得疯。所以下面介绍一下如何同步自己的Sublime配置——只要备份<code>Packages\User</code>文件夹即可，里面的<code>sublime-settings</code>文件都保存了你的所有设置，更换电脑之后，只要恢复过去，打开Sublime的时候会自动检测，下载并安装你需要的包。</p>
+<p>Windows下备份文件夹：</p>
+<p><code>C:\Users\yourusername\AppData\Roaming\Sublime Text 3\Packages\User</code></p>
+<h2 id="6后记">6.后记<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<p>VS Code 很香，但作为一个追求简洁和敲代码敲个爽的蒟蒻决定放弃 VS Code（尽管效率真的很高）开始捡回 Sublime Text，不管不顾的决定把它改造成一个超级适应我的的IDE，所以，走你～～</p>
+<h2 id="7-参考">7. 参考<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<ul>
+<li><a href="https://blog.qiujinfeng.com/" target="_blank" rel="noopener nofollow">ECHO 学长：Sublime Text 配置C语言开发环境</a></li>
+<li>关于<a href="https://www.jianshu.com/p/d895f2238753" target="_blank" rel="noopener nofollow">快捷键修改</a>与<a href="https://blog.csdn.net/a772304419/article/details/79343374" target="_blank" rel="noopener nofollow">对照</a></li>
+</ul>
+
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block" role="contentinfo">
+
+
+<div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/RioTian/category/1615657.html" target="_blank">随笔</a>
+</div>
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(14761864,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow(&#39;1879b1d0-0b82-43fc-9a4e-08d753a9a8fd&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_wechat" href="javascript:void(0);" onclick="shareManager.wechatShare()">微信分享</a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/RioTian/" target="_blank"><img src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/20250211121816.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/RioTian/">RioTian</a>
+            <br>
+            <a href="https://home.cnblogs.com/u/RioTian/followers/">粉丝 - <span class="follower-count">276</span></a>
+            <a href="https://home.cnblogs.com/u/RioTian/followees/">关注 - <span class="following-count">18</span></a><br>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow" class="follow-tip">
+                <a href="javascript:void(0);" onclick="follow(&#39;1879b1d0-0b82-43fc-9a4e-08d753a9a8fd&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(14761864,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(14761864,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script>
+</div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/RioTian/p/14761145.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/RioTian/p/14761145.html" data-featured-image="" title="发布于 2021-05-12 18:47">AcWing 每日一题 - Summer</a>
+    <br>
+    <a href="https://www.cnblogs.com/RioTian/p/14766074.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/RioTian/p/14766074.html" data-featured-image="" title="发布于 2021-05-13 20:23">【每日一题】24.换个角度思考 （主席树）</a>
+
+</div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date" data-last-update-days="1431.8444756384977" data-date-created="BlogServer.Application.Dto.BlogPost.BlogPostDto" data-date-updated="2021-05-13 18:33" aria-expanded="false">2021-05-12 21:47</span>&nbsp;
+<a href="https://www.cnblogs.com/RioTian">RioTian</a>&nbsp;
+阅读(<span id="post_view_count">5165</span>)&nbsp;
+评论(<span id="post_comment_count">1</span>)&nbsp;
+&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14761864);return false;">收藏</a>&nbsp;
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: &#39;&#39;, targetType: &#39;blogPost&#39;, targetId: &#39;14761864&#39;, targetLink: &#39;https://www.cnblogs.com/RioTian/p/14761864.html&#39;, title: &#39;将Sublime Text打造为轻量级的C++ IDE&#39; })">举报</a>
+</div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script>
+    var cb_entryId = 14761864, cb_entryCreatedDate = '2021-05-12 21:47', cb_postType = 1, cb_postTitle = '将Sublime Text打造为轻量级的C++ IDE';
+    var allowComments = true, cb_blogId = 568589, cb_blogApp = 'RioTian', cb_blogUserGuid = '1879b1d0-0b82-43fc-9a4e-08d753a9a8fd';
+    mermaidRender.render()
+    markdown_highlight()
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");    
+</script>
+<a id="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"> 
+        <div class="comment-nav-right">
+            <span id="span_refresh_tips"></span><a href="https://www.cnblogs.com/RioTian/p/14761864.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/RioTian/p/14761864.html#top">返回顶部</a>
+        </div>
+    </div>
+    <div id="comment_form_container"><div class="login_tips">
+    登录后才能查看或发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return account.login(&#39;!comments&#39;);">登录</a> 或者
+    <a href="https://www.cnblogs.com/">逛逛</a> 博客园首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+        <div id="cnblogs_ch"><a href="http://www.uccpsoft.com/index.htm" target="_blank" onclick="gtag(&#39;event&#39;, &#39;click&#39;, {&#39;event_category&#39;: &#39;ad&#39;, &#39;event_label&#39;: &#39;T2-UCanCode&#39;})">【推荐】100%开源！大型工业跨平台软件C++源码提供，建模，组态！</a><br><a href="https://www.trae.com.cn/?utm_source=advertising&amp;utm_medium=cnblogs_ug_cpa&amp;utm_term=hw_trae_cnblogs" target="_blank" onclick="gtag(&#39;event&#39;, &#39;click&#39;, {&#39;event_category&#39;: &#39;ad&#39;, &#39;event_label&#39;: &#39;T2-字节-Trae&#39;})">【推荐】国内首个AI IDE，深度理解中文开发场景，立即下载体验Trae</a><br><a href="https://www.marscode.cn/?utm_source=advertising&amp;utm_medium=cnblogs.com_ug_cpa&amp;utm_term=hw_marscode_cnblogs&amp;utm_content=home" target="_blank" onclick="gtag(&#39;event&#39;, &#39;click&#39;, {&#39;event_category&#39;: &#39;ad&#39;, &#39;event_label&#39;: &#39;T2-字节-MarsCode&#39;})">【推荐】编程新体验，更懂你的AI，立即体验豆包MarsCode编程助手</a><br><a href="http://ishell.cc/" target="_blank" onclick="gtag(&#39;event&#39;, &#39;click&#39;, {&#39;event_category&#39;: &#39;ad&#39;, &#39;event_label&#39;: &#39;T2-IShell&#39;})">【推荐】轻量又高性能的 SSH 工具 IShell：AI 加持，快人一步</a><br></div>
+    <div id="opt_under_post"></div>
+        <div id="blog_c1" class="under-post-card">
+            <a href="https://www.trae.com.cn/?utm_source=advertising&amp;utm_medium=cnblogs_ug_cpa&amp;utm_term=hw_trae_cnblogs" rel="nofollow" target="_blank" onclick="countCreativeClicks(&#39;C1-字节-trae&#39;)">
+                <img src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/35695-20250314212005023-452697622.jpg" onload="countCreativeImpressions(&#39;C1-字节-trae&#39;)" alt="">
+                <span id="c1_impression" style="display:none"></span>
+            </a>
+        </div>
+    <div id="under_post_card1"><div class="under-post-card">
+<b>编辑推荐：</b>
+<br>
+
+· <a href="https://www.cnblogs.com/BNTang/p/18815937" target="_blank">一文彻底搞懂 MCP：AI 大模型的标准化工具箱</a>
+    <br>
+· <a href="https://www.cnblogs.com/seven97-top/p/18810985" target="_blank">电商平台中订单未支付过期如何实现自动关单？</a>
+    <br>
+· <a href="https://www.cnblogs.com/hez2010/p/18813775/dotnet-nativeaot-distroless-statically-linked-app" target="_blank">用 .NET NativeAOT 构建完全 distroless 的静态链接应用</a>
+    <br>
+· <a href="https://www.cnblogs.com/CareySon/p/18801509" target="_blank">为什么构造函数需要尽可能的简单</a>
+    <br>
+· <a href="https://www.cnblogs.com/ibigboy/p/18803885" target="_blank">探秘 MySQL 索引底层原理，解锁数据库优化的关键密码(下)</a>
+    <br>
+</div></div>
+    <div id="under_post_card2"><div class="itnews under-post-card">
+    <b>阅读排行：</b>
+    <br>
+ ·          <a href="https://www.cnblogs.com/aser1989/p/18817862" target="_blank">短信接口被刷爆：我用Nginx临时止血</a>
+        <br>
+ ·          <a href="https://www.cnblogs.com/yexiaochai/p/18817609" target="_blank">聊聊智商税：AI知识库</a>
+        <br>
+ ·          <a href="https://www.cnblogs.com/whuanle/p/18817790" target="_blank">.NET 平台上的开源模型训练与推理进展</a>
+        <br>
+ ·          <a href="https://www.cnblogs.com/HaiJun-Aion/p/18818310" target="_blank">Google发布A2A开源协议:“MCP+A2A”成未来标配？</a>
+        <br>
+ ·          <a href="https://www.cnblogs.com/cnsharp/p/18819771" target="_blank">C# 多项目打包时如何将项目引用转为包依赖</a>
+        <br>
+</div></div>
+    <div id="HistoryToday" class="under-post-card">
+<b>历史上的今天：</b>
+<br>
+
+2020-05-12    <a href="https://www.cnblogs.com/RioTian/p/12879353.html">POJ  2387 Til the Cows Come Home(最短路板子题，Dijkstra算法, spfa算法，Floyd算法,深搜DFS)</a>
+    <br>
+2020-05-12    <a href="https://www.cnblogs.com/RioTian/p/12878632.html">POJ 1417 True Liars (并查集+DP）</a>
+    <br>
+2020-05-12    <a href="https://www.cnblogs.com/RioTian/p/12874867.html">#3038：How Many Answers Are Wrong （带权并查集）</a>
+    <br>
+</div>
+    <script type="text/javascript">
+        var commentManager = new blogCommentManager();
+        commentManager.renderComments(0);
+        fixPostBody();
+        window.footnoteTipManager.generateFootnoteTips();
+
+            window.tocManager.displayDisableTocTips = false;
+            window.tocManager.generateToc();
+            
+                setTimeout(function() { countViews(cb_blogId, cb_entryId); }, 50);
+            
+            deliverT2();
+            deliverC1C2();
+            loadNewsAndKb();
+            
+                LoadPostCategoriesTags(cb_blogId, cb_entryId);
+            
+            LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+            GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+            loadOptUnderPost();
+            GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+                </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="display:none"></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div class="mySearch my-search">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk">
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block"><div class="catListLink">
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+    <li><a href="https://www.cnblogs.com/RioTian/p/" title="我的博客的随笔列表">我的随笔</a></li>
+<li><a href="https://www.cnblogs.com/RioTian/MyComments.html" title="我的发表过的评论列表">我的评论</a></li>
+<li><a href="https://www.cnblogs.com/RioTian/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li>
+<li><a href="https://www.cnblogs.com/RioTian/comments" title="我的博客的评论列表">最新评论</a></li>
+<li><a href="https://www.cnblogs.com/RioTian/tag/" title="我的博客的标签列表">我的标签</a></li>
+
+</ul>
+</div>
+
+</div>
+
+<!-- 最新随笔 -->
+<div id="sidebar_recentposts" class="sidebar-block"><div class="catListEssay">
+<h3 class="catListTitle">最新随笔</h3>
+    <ul>
+                <li>
+                    
+<a href="https://www.cnblogs.com/RioTian/p/18757475">1.MacOS 下Qt设置应用程序图标</a>
+
+                </li>
+                <li>
+                    
+<a href="https://www.cnblogs.com/RioTian/p/18707655">2.GitHub 不再支持密码验证，如何在 macOS 上实现 Token 登陆配置</a>
+
+                </li>
+                <li>
+                    
+<a href="https://www.cnblogs.com/RioTian/p/18707633">3.Git: submodule 子模块简明教程</a>
+
+                </li>
+                <li>
+                    
+<a href="https://www.cnblogs.com/RioTian/p/18707266">4.macOS | 使用 homebrew-bundle 优雅的备份和恢复软件列表</a>
+
+                </li>
+                <li>
+                    
+<a href="https://www.cnblogs.com/RioTian/p/18660159">5.JavaScript 正则表达式验证IP地址及子网掩码</a>
+
+                </li>
+                <li>
+                    
+<a href="https://www.cnblogs.com/RioTian/p/18602192">6.[QT] MAC使用Qt Creator运行程序如何仅运行一个进程？</a>
+
+                </li>
+                <li>
+                    
+<a href="https://www.cnblogs.com/RioTian/p/18536382">7.macOS 如何优雅地配置Java开发环境</a>
+
+                </li>
+                <li>
+                    
+<a href="https://www.cnblogs.com/RioTian/p/18523473">8.How to Install psql on Mac</a>
+
+                </li>
+                <li>
+                    
+<a href="https://www.cnblogs.com/RioTian/p/18375508">9.QT在子线程中正确使用定时器QTimer，及IO类的对象跨线程调用问题</a>
+
+                </li>
+                <li>
+                    
+<a href="https://www.cnblogs.com/RioTian/p/18285857">10.Qt/C++ 中调用 Python，并将软件打包发布、Python 含第三方依赖</a>
+
+                </li>
+    </ul>
+</div>
+
+</div>
+
+<!-- 我的标签 -->
+
+
+<!-- 积分与排名 -->
+<div id="sidebar_scorerank" class="sidebar-block"><div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	
+722659
+	</li>
+	<li class="liRank">
+		排名 -	
+743
+	</li>
+</ul>
+</div>
+
+
+
+</div>
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+        <h3 class="catListTitle">
+            
+    <a class="sidebar-card-title-a" href="https://www.cnblogs.com/RioTian/post-categories">随笔分类</a>
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2326274.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">InWork-------------(6)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2327413.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">InWork：Cpp 3rd Party(22)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2326275.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">InWork：网络编程(7)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1661868.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">language----------(8)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1615655.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">language:  C++(69)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2363046.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">language:  Rust(27)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2019554.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">language: C#(4)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1914169.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">language: Go(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1839423.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">language: Java(20)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2275717.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">language: JavaScript(3)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2407261.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">language: Node(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1753577.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">language: Python(29)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2278406.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">language: Vue(3)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1893193.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">Linux(13)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2295109.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">Mac(10)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2179162.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">课程——BIgData(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2033122.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">课程——JSP开发(27)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2186624.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">课程——KY(6)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2128697.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">课程——Linux操作系统(8)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2311650.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">课程——QT(Base C++)(15)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2103585.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">课程——SpringBoot(16)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2117057.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">课程——SpringCloud(3)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2097800.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">课程——SSM(17)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1842689.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">课程——Web前端开发(12)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2168390.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">课程——操作系统(15)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2130327.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">课程——高等数学(6)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2036443.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">课程——汇编语言(9)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2037435.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">课程——机器学习算法导论(12)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2041946.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">课程——计算机网络(9)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1842694.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">课程——离散数学(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2131617.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">课程——软件工程(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2113016.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">课程——设计模式(3)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1920620.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">课程——数据库系统概论(26)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2025915.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">课程——网络爬虫(4)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2097742.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">课程——微服务(5)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1661920.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">数据结构基础：链表(5)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1661858.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">数据结构基础：树(12)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1661940.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">数据结构基础：数组(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2183218.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">数据结构基础：图(3)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1661847.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">数据结构基础：栈与队列(8)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1661903.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">刷题笔记----------(34)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1921182.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">刷题笔记: AtCoder(62)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1632614.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">刷题笔记: CF(159)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1747560.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">刷题笔记: HDU-OJ(51)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1659129.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">刷题笔记: LeetCode(35)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1757094.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">刷题笔记: POJ(38)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1649956.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">刷题笔记: PTA(39)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1649943.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">刷题笔记: 蓝桥杯(44)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1816985.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">刷题笔记：算法竞赛进阶指南(31)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1776629.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">刷题笔记：挑战程序设计(4)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1649950.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法----------(41)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1877410.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法和数据结构专题(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1820748.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：RMQ(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1752744.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：并查集(12)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1752755.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：博弈论(8)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1814966.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：差分约束(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2005354.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：单调队列(3)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1661873.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：递归与递推(3)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1661921.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：动态规划(48)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1661874.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：二分查找(7)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1825787.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：二分图(8)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2010417.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：分块(3)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2007473.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：概率题(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1661923.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：哈希(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1662581.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：滑动窗口(4)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1852545.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：计算几何(12)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2008116.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：矩阵(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2016264.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：矩阵加速递推优化DP(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1815620.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：连通图(9)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1756758.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：模拟(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1834699.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：莫队(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1752743.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：母函数(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1661877.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：排序(3)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2003793.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：期望DP(3)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1961547.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：区间DP(5)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2015089.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：容斥原理(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1661928.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：三分查找(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1856771.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：树形DP(11)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1754852.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：数论(32)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2011763.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：数位DP(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1674783.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：双指针(7)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1661880.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：水题(4)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2015642.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：四边形不等式优化DP(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1756251.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：搜索(26)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1661879.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：贪心(7)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1756493.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：图论(7)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1756757.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：拓扑排序(3)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1825790.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：网络流(5)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1687764.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：位运算(8)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1817243.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：线段树和树状数组(12)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1972114.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：斜率DP(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2019427.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：悬线法(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1793349.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：正则表达式(5)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2018287.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：状压DP(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1756956.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：字典树(4)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1756489.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：字符串匹配(11)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1756759.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：最短路径(17)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1756756.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法基础：最小生成树(7)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/1615657.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">随笔(93)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2106174.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">中间件：Docker(5)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/category/2113709.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">中间件：Redis(2)</a>
+ 
+                </li>                
+            <li>
+                <a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a>
+            </li>
+        </ul>
+
+
+    </div>    
+    <div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+        <h3 class="catListTitle">
+            
+随笔档案
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2025/03" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2025年3月(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2025/02" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2025年2月(3)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2025/01" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2025年1月(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2024/12" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2024年12月(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2024/11" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2024年11月(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2024/08" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2024年8月(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2024/07" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2024年7月(3)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2024/06" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2024年6月(3)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2024/05" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2024年5月(6)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2024/04" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2024年4月(14)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2024/03" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2024年3月(9)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2024/01" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2024年1月(20)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2023/12" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2023年12月(8)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2023/11" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2023年11月(22)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2023/10" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2023年10月(9)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2023/09" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2023年9月(12)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2023/08" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2023年8月(12)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2023/07" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2023年7月(17)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2023/05" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2023年5月(4)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2023/04" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2023年4月(5)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2023/03" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2023年3月(8)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2023/02" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2023年2月(15)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2023/01" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2023年1月(5)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2022/12" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2022年12月(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2022/11" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2022年11月(4)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2022/10" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2022年10月(9)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2022/09" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2022年9月(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2022/08" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2022年8月(11)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2022/07" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2022年7月(6)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2022/06" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2022年6月(12)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2022/05" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2022年5月(5)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2022/04" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2022年4月(3)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2022/03" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2022年3月(12)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2022/02" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2022年2月(14)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2022/01" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2022年1月(16)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2021/12" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2021年12月(10)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2021/11" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2021年11月(20)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2021/10" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2021年10月(22)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2021/09" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2021年9月(32)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2021/08" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2021年8月(64)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2021/07" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2021年7月(49)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2021/06" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2021年6月(23)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2021/05" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2021年5月(63)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2021/04" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2021年4月(69)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2021/03" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2021年3月(48)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2021/02" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2021年2月(7)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2021/01" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2021年1月(33)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2020/12" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2020年12月(16)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2020/11" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2020年11月(44)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2020/10" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2020年10月(48)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2020/09" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2020年9月(56)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2020/08" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2020年8月(99)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2020/07" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2020年7月(51)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2020/06" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2020年6月(36)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2020/05" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2020年5月(47)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2020/04" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2020年4月(37)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2020/03" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2020年3月(49)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2020/02" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2020年2月(10)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2020/01" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2020年1月(6)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/RioTian/p/archive/2019/12" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2019年12月(1)</a>
+ 
+                </li>                
+            <li>
+                <a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a>
+            </li>
+        </ul>
+
+
+    </div>    
+</div>
+
+<!-- 最新评论 -->
+
+
+
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block"><div class="catListView">
+    <h3 class="catListTitle">
+        <a href="https://www.cnblogs.com/RioTian/most-viewed" class="sidebar-card-title-a">
+    阅读排行榜
+</a>
+
+    </h3>
+    <div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/RioTian/p/15541731.html">
+                            1. C# | VS2019连接MySQL的三种方法以及使用MySQL数据库教程(28988)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/RioTian/p/15163878.html">
+                            2. 【动态规划】树形DP完全详解！(20827)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/RioTian/p/14076214.html">
+                            3. C++函数：std::tie 详解(20564)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/RioTian/p/13598747.html">
+                            4. 位运算的奇技淫巧（二）(18832)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/RioTian/p/14983704.html">
+                            5. Pygame 入门基本指南(17649)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 评论排行榜 -->
+
+
+<!-- 推荐排行榜 -->
+</div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2025 RioTian
+<br><span id="poweredby">Powered by .NET 9.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+    <div id="page_end_html">
+        <script src="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.js"></script>
+
+<!-- 生成博客目录的JS代码，两级目录 -->
+<script type="text/javascript">
+  // change the title logo
+  var logo = document.getElementById("blogLogo");
+  logo.setAttribute(
+    "src",
+    "https://images.cnblogs.com/cnblogs_com/RioTian/2064912/o_240827133945_WechatIMG89.jpg",
+  );
+  logo.setAttribute("alt", "Administrator");
+
+  /*  
+        这段代码按H2、H3格式生成两级菜单
+        写博客按H2、H3格式写，不然生成不了
+        Markdown写作按##、###两级目录写
+        当然你也可以改写代码成三级菜单
+    */
+  var BlogDirectory = {
+    /* 获取元素位置，距浏览器左边界的距离（left）和距浏览器上边界的距离（top）*/
+    getElementPosition: function (ele) {
+      var topPosition = 0;
+      var leftPosition = 0;
+      while (ele) {
+        topPosition += ele.offsetTop;
+        leftPosition += ele.offsetLeft;
+        ele = ele.offsetParent;
+      }
+      return {
+        top: topPosition,
+        left: leftPosition,
+      };
+    },
+    /*获取滚动条当前位置 */
+    getScrollBarPosition: function () {
+      var scrollBarPosition =
+        document.body.scrollTop || document.documentElement.scrollTop;
+      return scrollBarPosition;
+    },
+    /* 移动滚动条，finalPos 为目的位置，internal 为移动速度 */
+    moveScrollBar: function (finalpos, interval) {
+      //若不支持此方法，则退出
+      if (!window.scrollTo) {
+        return false;
+      }
+
+      //窗体滚动时，禁用鼠标滚轮
+      window.onmousewheel = function () {
+        return false;
+      };
+
+      //清除计时
+      if (document.body.movement) {
+        clearTimeout(document.body.movement);
+      }
+
+      //获取滚动条当前位置
+      var currentpos = BlogDirectory.getScrollBarPosition();
+
+      var dist = 0;
+      //到达预定位置，则解禁鼠标滚轮，并退出
+      if (currentpos == finalpos) {
+        window.onmousewheel = function () {
+          return true;
+        };
+        return true;
+      }
+      //未到达，则计算下一步所要移动的距离
+      if (currentpos < finalpos) {
+        dist = Math.ceil((finalpos - currentpos) / 10);
+        currentpos += dist;
+      }
+      if (currentpos > finalpos) {
+        dist = Math.ceil((currentpos - finalpos) / 10);
+        currentpos -= dist;
+      }
+
+      var scrTop = BlogDirectory.getScrollBarPosition(); //获取滚动条当前位置
+      window.scrollTo(0, currentpos); //移动窗口
+      if (BlogDirectory.getScrollBarPosition() == scrTop) {
+        //若已到底部，则解禁鼠标滚轮，并退出
+        window.onmousewheel = function () {
+          return true;
+        };
+        return true;
+      }
+
+      //进行下一步移动
+      var repeat =
+        "BlogDirectory.moveScrollBar(" + finalpos + "," + interval + ")";
+      document.body.movement = setTimeout(repeat, interval);
+    },
+
+    htmlDecode: function (text) {
+      var temp = document.createElement("div");
+      temp.innerHTML = text;
+      var output = temp.innerText || temp.textContent;
+      temp = null;
+      return output;
+    },
+
+    /*
+        创建博客目录，id表示包含博文正文的 div 容器的 id，
+        mt 和 st 分别表示主标题和次级标题的标签名称（如 H2、H3，大写或小写都可以！），
+        interval 表示移动的速度
+        */
+    createBlogDirectory: function (id, mt, st, interval) {
+      //获取博文正文div容器
+      var elem = document.getElementById(id);
+      if (!elem) return false;
+      //获取div中所有元素结点
+      var nodes = elem.getElementsByTagName("*");
+      //创建博客目录的div容器
+      var divSideBar = document.createElement("DIV");
+      divSideBar.className = "uprightsideBar";
+      divSideBar.setAttribute("id", "uprightsideBar");
+
+      var divSideBarTab = document.createElement("DIV");
+      divSideBarTab.setAttribute("id", "sideBarTab");
+
+      var p = document.createElement("p");
+      divSideBarTab.appendChild(p);
+      var txt = document.createTextNode("📖目录");
+      p.setAttribute("id", "catalogHeadTitle");
+      p.appendChild(txt);
+
+      var divSideBarContents = document.createElement("DIV");
+      divSideBarContents.style.display = "none";
+      divSideBarContents.setAttribute("id", "sideBarContents");
+
+      divSideBar.appendChild(divSideBarTab);
+      divSideBar.appendChild(divSideBarContents);
+
+      //创建自定义列表
+      var dlist = document.createElement("dl");
+      divSideBarContents.appendChild(dlist);
+      var num = 0; //统计找到的mt和st
+      mt = mt.toUpperCase(); //转化成大写
+      st = st.toUpperCase(); //转化成大写
+      //遍历所有元素结点
+      for (var i = 0; i < nodes.length; i++) {
+        if (nodes[i].nodeName == mt || nodes[i].nodeName == st) {
+          //获取标题文本
+
+          var nodetext = nodes[i].innerHTML.replace(/<\/?[^>]+>/g, ""); //innerHTML里面的内容可能有HTML标签，所以用正则表达式去除HTML的标签
+          // nodetext = nodetext.replace(/ /ig, "");//替换掉所有的空格
+          nodetext = BlogDirectory.htmlDecode(nodetext);
+          //插入锚
+          nodes[i].setAttribute("id", "blogTitle" + num);
+          var item;
+          switch (nodes[i].nodeName) {
+            case mt: //若为主标题
+              item = document.createElement("dt");
+              var itemtext = document.createTextNode(nodetext);
+              break;
+            case st: //若为子标题
+              item = document.createElement("dd");
+              var itemtext = document.createTextNode("• " + nodetext);
+              break;
+          }
+
+          //创建锚链接
+          item.appendChild(itemtext);
+          item.setAttribute("name", num);
+          //添加鼠标点击触发函数
+          item.onclick = function () {
+            var pos = BlogDirectory.getElementPosition(
+              document.getElementById("blogTitle" + this.getAttribute("name")),
+            );
+            if (!BlogDirectory.moveScrollBar(pos.top, interval)) return false;
+          };
+          //将自定义表项加入自定义列表中
+          dlist.appendChild(item);
+          num++;
+        }
+      }
+
+      if (num == 0) return false;
+      // 如果是移动端，通过点击的方式来显示或隐藏目录
+      // 如果是PC端，通过鼠标聚焦的方式来显示或隐藏
+      if (isMobile()) {
+        divSideBarContents.style.borderRadius = "0px 6px 6px 6px";
+        divSideBar.onclick = function () {
+          var status = divSideBarContents.style.display;
+          if (status == "block") {
+            document.getElementById("catalogHeadTitle").innerText = "📖目录";
+            divSideBarTab.style.borderRadius = "6px";
+            divSideBarContents.style.display = "none";
+          } else if (status == "none") {
+            document.getElementById("catalogHeadTitle").innerText = "❎关闭";
+            divSideBarTab.style.borderRadius = "6px 0px 0px 6px";
+            divSideBarContents.style.display = "block";
+          }
+        };
+      } else {
+        /* 鼠标进入时的事件处理 */
+        divSideBarTab.onmouseenter = function () {
+          divSideBarContents.style.display = "block";
+        };
+        /* 鼠标离开时的事件处理 */
+        divSideBar.onmouseleave = function () {
+          divSideBarContents.style.display = "none";
+        };
+      }
+      document.body.appendChild(divSideBar);
+    },
+  };
+
+  // 判断浏览器函数
+  function isMobile() {
+    if (
+      window.navigator.userAgent.match(
+        /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i,
+      )
+    ) {
+      return true; // 移动端
+    } else {
+      return false; // PC端
+    }
+  }
+
+  window.onload = function () {
+    /* 页面加载完成之后生成博客目录 */
+    BlogDirectory.createBlogDirectory("cnblogs_post_body", "h2", "h3", 20);
+  };
+</script>
+
+<!-- 返回顶部功能-->
+<script type="text/javascript">
+  (function () {
+    var $backToTopTxt = "返回顶部",
+      $backToTopEle = $('<div class="backToTop"></div>')
+        .appendTo($("body"))
+        .text($backToTopTxt)
+        .attr("title", $backToTopTxt)
+        .click(function () {
+          $("html, body").animate(
+            {
+              scrollTop: 0,
+            },
+            120,
+          );
+        }),
+      $backToTopFun = function () {
+        var st = $(document).scrollTop(),
+          winh = $(window).height();
+        st > 0 ? $backToTopEle.show() : $backToTopEle.hide();
+        //IE6下的定位
+        if (!window.XMLHttpRequest) {
+          $backToTopEle.css("top", st + winh - 166);
+        }
+      };
+    $(window).bind("scroll", $backToTopFun);
+    $(function () {
+      $backToTopFun();
+    });
+  })();
+</script>
+
+<!-- Chatra {literal} -->
+<script>
+  (function (d, w, c) {
+    w.ChatraID = "DG4xk9nE2HXoMr7GD";
+    var s = d.createElement("script");
+    w[c] =
+      w[c] ||
+      function () {
+        (w[c].q = w[c].q || []).push(arguments);
+      };
+    s.async = true;
+    s.src = "https://call.chatra.io/chatra.js";
+    if (d.head) d.head.appendChild(s);
+  })(document, window, "Chatra");
+</script>
+<!-- /Chatra {/literal} -->
+
+<script>
+  // fancybox
+  $(".cnblogs-markdown img").each(function () {
+    var element = document.createElement("a");
+    // 点击增大以及点击前往另一个页面
+    // $(element).attr("data-fancybox", "gallery");
+    // $(element).attr("href", $(this).attr("src"));
+    $(element).attr("data-caption", $(this).attr("alt"));
+    $(this).wrap(element);
+    if ($(this).attr("alt") != "") {
+      $(this)
+        .parent()
+        .after('<div class="img-caption">' + $(this).attr("alt") + "</div>");
+    }
+  });
+</script>
+
+    </div><div class="backToTop" title="返回顶部" style="display: none;">返回顶部</div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8KL9kPW-LSFBi_9YdTzcC0--Bs5fNAFj4zQy9Gp78aRWo34gB0MFBPG3S76xB3YgHZvAyQdwNoXlCDT0JwBKuwAg43Z-iODD5XGvnQxl9R6oH4zq8DjckdGuESyZOvKDlN41lOUgHsmSg9Hk5fwPKQg">
+    <script async="" src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/js"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-M95P3TTWJZ');
+</script>
+<script defer="" src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/hm.js.下载"></script>
+
+
+<div style="z-index: 998; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: none; flex-direction: column; align-items: center; justify-content: center">
+<div style="background: #fff;padding: 30px; margin: 30px; border-radius: 16px;">
+  <div style="width: 200px; height: 200px; background: rgba(255, 255, 255, 0.8); position: absolute; top: -100px; right: -100px; border-radius: 100px"></div>
+  <div style="text-align: center; font-size: 18px; margin-bottom: 10px;">点击右上角即可分享</div>
+  <img src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/35695-20230906145857937-1471873834.gif" alt="微信分享提示">
+</div>   
+    </div><div class="chatra--webkit chatra--style-tab chatra--side-bottom chatra--pos-left chatra--visible" id="chatra" data-turbolinks-permanent="" style="width: 102px; height: 40px; transform: none; z-index: 9999;"><div id="chatra__iframe-wrapper"><iframe frameborder="0" id="chatra__iframe" allowtransparency="true" title="Chatra live chat" allow="autoplay" src="./将Sublime Text打造为轻量级的C++ IDE - RioTian_files/saved_resource.html" style="width: 380px; height: 600px; position: absolute;"></iframe></div></div></body></html>
